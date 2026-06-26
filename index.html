@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harry Jerry Joseph — Cloud & DevOps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0F1E;
+    --surface: #121929;
+    --card: #1A2540;
+    --border: #243050;
+    --cyan: #00D4FF;
+    --cyan-dim: rgba(0,212,255,0.12);
+    --cyan-glow: rgba(0,212,255,0.25);
+    --text: #E8EDF5;
+    --muted: #7A8499;
+    --faint: #3A4560;
+    --white: #F0F4FF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; color: var(--cyan); letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.04em; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,212,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+    background-image: linear-gradient(var(--cyan) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--cyan) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-inner { position: relative; max-width: 780px; }
+
+  .prompt-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .prompt-symbol { color: var(--cyan); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(42px, 6vw, 76px);
+    font-weight: 700; line-height: 1.05;
+    color: var(--white); letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--cyan); }
+
+  .hero-role {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--muted); font-weight: 400;
+    margin-top: 14px; margin-bottom: 28px;
+  }
+
+  .hero-summary {
+    font-size: 15px; color: var(--text); line-height: 1.75;
+    max-width: 560px; opacity: 0.85;
+    margin-bottom: 40px;
+  }
+
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+    padding: 12px 28px; border-radius: 6px;
+    background: var(--cyan); color: #0A0F1E;
+    text-decoration: none; transition: opacity 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-outline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.04em;
+    padding: 12px 28px; border-radius: 6px;
+    border: 1px solid var(--border); color: var(--text);
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--cyan); background: var(--cyan-dim); }
+
+  .contact-chips {
+    display: flex; gap: 20px; flex-wrap: wrap; margin-top: 48px;
+    padding-top: 36px; border-top: 1px solid var(--border);
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 7px;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .chip:hover { color: var(--cyan); }
+  .chip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); opacity: 0.5; flex-shrink: 0; }
+
+  /* SECTIONS */
+  section { padding: 80px 48px; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--cyan); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700; color: var(--white); letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  .inner { max-width: 1100px; margin: 0 auto; }
+
+  /* SKILLS */
+  .skills-section { background: var(--surface); }
+  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .skill-group {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: var(--faint); }
+  .skill-group-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--cyan); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 12px; font-weight: 500;
+    padding: 5px 10px; border-radius: 4px;
+    background: rgba(0,212,255,0.07);
+    color: var(--text); border: 1px solid rgba(0,212,255,0.15);
+  }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    transition: border-color 0.25s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-icon {
+    width: 40px; height: 40px; border-radius: 8px;
+    background: var(--cyan-dim); border: 1px solid rgba(0,212,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 16px;
+  }
+  .project-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px; font-weight: 600; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .project-desc {
+    font-size: 13.5px; color: var(--muted); line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .project-stack { display: flex; gap: 6px; flex-wrap: wrap; }
+  .stack-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 3px 8px; border-radius: 3px;
+    background: rgba(255,255,255,0.04); color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* EDUCATION */
+  .edu-section { background: var(--surface); }
+  .edu-list { display: flex; flex-direction: column; gap: 20px; }
+  .edu-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px 28px;
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+  .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--cyan); white-space: nowrap;
+    padding-top: 3px; min-width: 80px;
+  }
+  .edu-degree {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 4px;
+  }
+  .edu-school { font-size: 13.5px; color: var(--muted); }
+
+  /* CERTIFICATIONS */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .cert-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 18px;
+    display: flex; gap: 12px; align-items: center;
+    transition: border-color 0.2s;
+  }
+  .cert-card:hover { border-color: rgba(0,212,255,0.25); }
+  .cert-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cyan); flex-shrink: 0; opacity: 0.7;
+  }
+  .cert-name { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .cert-issuer { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* SOFT SKILLS */
+  .soft-skills-section { background: var(--surface); }
+  .soft-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .soft-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; font-weight: 500;
+    padding: 8px 18px; border-radius: 30px;
+    border: 1px solid var(--border); color: var(--text);
+    background: transparent; transition: all 0.2s;
+  }
+  .soft-tag:hover { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--muted);
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+
+  /* CURSOR BLINK */
+  .cursor {
+    display: inline-block; width: 2px; height: 1em;
+    background: var(--cyan); margin-left: 2px; vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* SCROLL ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .fade-up.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 700px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero, section { padding: 80px 20px 60px; }
+    footer { padding: 28px 20px; }
+    .edu-card { flex-direction: column; gap: 6px; }
+    .edu-year { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">~/harry-jerry-joseph</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="mailto:harryjerryjoseph@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="prompt-line">
+      <span class="prompt-symbol">❯</span> whoami
+    </div>
+    <h1>Harry Jerry<br><span>Joseph</span><span class="cursor"></span></h1>
+    <p class="hero-role">BCA Student · Cloud Computing Specialization</p>
+    <p class="hero-summary">
+      Bachelor of Computer Applications student at Kristu Jayanti College, specializing in cloud computing. 
+      Building with Docker, Nginx, Linux, and Git — and looking for an internship where real infrastructure meets real problems.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:harryjerryjoseph@gmail.com" class="btn-primary">Get in touch</a>
+      <a href="https://linkedin.com/in/harry-jerry-a5029533b" class="btn-outline" target="_blank">LinkedIn ↗</a>
+    </div>
+    <div class="contact-chips">
+      <a href="tel:+917560808801" class="chip"><span class="chip-dot"></span>+91 75608 08801</a>
+      <a href="mailto:harryjerryjoseph@gmail.com" class="chip"><span class="chip-dot"></span>harryjerryjoseph@gmail.com</a>
+      <span class="chip"><span class="chip-dot"></span>Kannur, Kerala</span>
+      <a href="https://linkedin.com/in/harry-jerry-a5029533b" class="chip" target="_blank"><span class="chip-dot"></span>linkedin.com/in/harry-jerry-a5029533b</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="inner">
+    <div class="section-label fade-up">Technical Skills</div>
+    <h2 class="fade-up">Tools of the trade</h2>
+    <div class="skill-groups fade-up">
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+          <span class="tag">Node.js</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Databases</div>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span>
+          <span class="tag">MongoDB</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">DevOps & Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Docker Compose</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Cloud & Networking</div>
+        <div class="skill-tags">
+          <span class="tag">Cloud Fundamentals</span>
+          <span class="tag">Networking Basics</span>
+          <span class="tag">DNS</span>
+          <span class="tag">Load Balancing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--bg);">
+  <div class="inner">
+    <div class="section-label fade-up">Projects</div>
+    <h2 class="fade-up">Things I've built</h2>
+    <div class="projects-grid fade-up">
+      <div class="project-card">
+        <div class="project-icon">🐳</div>
+        <div class="project-title">Nginx Docker Project</div>
+        <p class="project-desc">Developed and deployed containerized web applications using Docker and Nginx. Managed multi-service applications with Docker Compose on Linux.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Docker Compose</span>
+          <span class="stack-tag">Nginx</span>
+          <span class="stack-tag">Linux</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">⚖️</div>
+        <div class="project-title">Nginx Load Balancer</div>
+        <p class="project-desc">Configured Nginx as a load balancer to distribute incoming traffic across multiple backend servers. Tested availability improvements and traffic distribution strategies.</p>
+        <div class="project-stack">
+          <span class="stack-tag">Nginx</span>
+          <span class="stack-tag">Load Balancing</span>
+          <span class="stack-tag">Networking</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🌐</div>
+        <div class="project-title">Static Website Hosting</div>
+        <p class="project-desc">Created and deployed static websites across GitHub Pages, Netlify, Cloudflare, and Vercel. Applied DNS and hosting fundamentals during end-to-end deployment.</p>
+        <div class="project-stack">
+          <span class="stack-tag">GitHub Pages</span>
+          <span class="stack-tag">Netlify</span>
+          <span class="stack-tag">Vercel</span>
+          <span class="stack-tag">Cloudflare</span>
+          <span class="stack-tag">DNS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="edu-section" id="education">
+  <div class="inner">
+    <div class="section-label fade-up">Education</div>
+    <h2 class="fade-up">Academic background</h2>
+    <div class="edu-list fade-up">
+      <div class="edu-card">
+        <div class="edu-year">2024 – Present</div>
+        <div>
+          <div class="edu-degree">Bachelor of Computer Applications — Cloud Computing Specialization</div>
+          <div class="edu-school">Kristu Jayanti College, Kothnur, Bangalore, Karnataka</div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2023 – 2024</div>
+        <div>
+          <div class="edu-degree">Higher Secondary Education — Computer Science</div>
+          <div class="edu-school">Sacred Hearts Higher Secondary School, Payyavoor, Kannur, Kerala</div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2022</div>
+        <div>
+          <div class="edu-degree">SSLC</div>
+          <div class="edu-school">Devamatha High School, Paisakari, Kannur, Kerala</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" style="background: var(--bg);">
+  <div class="inner">
+    <div class="section-label fade-up">Certifications</div>
+    <h2 class="fade-up">Credentials</h2>
+    <div class="cert-grid fade-up">
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">Programming in Java</div><div class="cert-issuer">NPTEL</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">Linux Fundamentals</div><div class="cert-issuer">Red Hat</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">Digital Engineering</div><div class="cert-issuer">Nasscom</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">Node.js: Advanced Concepts</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">Complete Git Guide</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-dot"></div>
+        <div><div class="cert-name">MongoDB Database Administration Path</div><div class="cert-issuer">MongoDB University</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOFT SKILLS -->
+<section class="soft-skills-section">
+  <div class="inner">
+    <div class="section-label fade-up">Soft Skills</div>
+    <h2 class="fade-up">How I work</h2>
+    <div class="soft-grid fade-up">
+      <span class="soft-tag">Problem Solving</span>
+      <span class="soft-tag">Time Management</span>
+      <span class="soft-tag">Adaptability</span>
+      <span class="soft-tag">Quick Learning</span>
+      <span class="soft-tag">Teamwork</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-mono">$ echo "Open to internship opportunities" ✦</div>
+  <div class="footer-links">
+    <a href="mailto:harryjerryjoseph@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/harry-jerry-a5029533b" target="_blank">LinkedIn</a>
+    <a href="https://github.com/HarryJerry616" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
