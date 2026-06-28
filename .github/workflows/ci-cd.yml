@@ -142,4 +142,4 @@ jobs:
         with:
           target: 'https://harryjerry616.github.io/dockerized-portfolio/'
           fail_action: false
-          allow_issue_writing: false 
+         
