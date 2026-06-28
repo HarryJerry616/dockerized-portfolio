@@ -137,9 +137,9 @@ jobs:
     needs: deploy
 
     steps:
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: 'https://harryjerry616.github.io/dockerized-portfolio/'
-          fail_action: false
-         
+      - name: Run OWASP ZAP Docker Scan
+        run: |
+         docker run --rm \
+         ghcr.io/zaproxy/zaproxy:stable \
+         zap-baseline.py \
+         -t https://harryjerry616.github.io/dockerized-portfolio/                                                        
